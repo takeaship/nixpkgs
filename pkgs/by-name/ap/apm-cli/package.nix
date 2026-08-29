@@ -6,7 +6,7 @@
 
 python3Packages.buildPythonApplication (finalAttrs: {
   pname = "apm-cli";
-  version = "0.21.0";
+  version = "0.28.0";
   pyproject = true;
 
   __structuredAttrs = true;
@@ -15,12 +15,12 @@ python3Packages.buildPythonApplication (finalAttrs: {
     owner = "microsoft";
     repo = "apm";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-Wotyqsg/1nbjttMk+4wpGK76+kaL7j6oMH61NwsTuNc=";
+    hash = "sha256-dQrbDvewO7rL1oFR2bWaxA1DjcLJqdn483tHPv4Lod4=";
   };
 
   postPatch = ''
     substituteInPlace pyproject.toml \
-      --replace-fail '"llm-github-models>=0.1.0",' ""
+      --replace-fail '"llm-github-models>=0.18.0",' ""
   '';
 
   build-system = with python3Packages; [
@@ -42,8 +42,11 @@ python3Packages.buildPythonApplication (finalAttrs: {
     rich-click
     ruamel-yaml
     toml
+    tomlkit
     tomli
+    truststore
     watchdog
+    websockets
   ];
 
   optional-dependencies = with python3Packages; {
@@ -51,12 +54,16 @@ python3Packages.buildPythonApplication (finalAttrs: {
       pyinstaller
     ];
     dev = [
+      hypothesis
       jsonschema
       mypy
+      # Not packaged in nixpkgs.
+      # mutmut
       pylint
       pytest
       pytest-cov
-      pytest-split
+      # Not packaged in nixpkgs.
+      # pytest-split
       pytest-xdist
       ruff
     ];
@@ -72,6 +79,6 @@ python3Packages.buildPythonApplication (finalAttrs: {
     changelog = "https://github.com/microsoft/apm/blob/${finalAttrs.src.rev}/CHANGELOG.md";
     license = lib.licenses.mit;
     maintainers = with lib.maintainers; [ drupol ];
-    mainProgram = "apm-cli";
+    mainProgram = "apm";
   };
 })
